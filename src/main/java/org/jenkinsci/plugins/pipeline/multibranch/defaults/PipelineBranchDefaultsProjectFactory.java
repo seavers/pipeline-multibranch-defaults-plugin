@@ -29,9 +29,11 @@ import hudson.model.TaskListener;
 import jenkins.branch.MultiBranchProject;
 import jenkins.scm.api.SCMSource;
 import jenkins.scm.api.SCMSourceCriteria;
+import org.apache.commons.lang.StringUtils;
 import org.jenkinsci.plugins.workflow.flow.FlowDefinition;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowBranchProjectFactory;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.DataBoundSetter;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -41,6 +43,27 @@ import java.io.IOException;
  */
 public class PipelineBranchDefaultsProjectFactory extends WorkflowBranchProjectFactory {
     public static final String SCRIPT = "Jenkinsfile";
+    private String scriptPath = SCRIPT;
+
+    public Object readResolve() {
+        if (this.scriptPath == null) {
+            this.scriptPath = PipelineBranchDefaultsProjectFactory.SCRIPT;
+        }
+        return this;
+    }
+
+    @DataBoundSetter
+    public void setScriptPath(String scriptPath) {
+        if (StringUtils.isEmpty(scriptPath)) {
+            this.scriptPath = SCRIPT;
+        } else {
+            this.scriptPath = scriptPath;
+        }
+    }
+
+    public String getScriptPath(){
+        return scriptPath;
+    }
 
     @DataBoundConstructor
     public PipelineBranchDefaultsProjectFactory() {
@@ -48,7 +71,7 @@ public class PipelineBranchDefaultsProjectFactory extends WorkflowBranchProjectF
 
     @Override
     protected FlowDefinition createDefinition() {
-        return new DefaultsBinder();
+        return new DefaultsBinder(scriptPath);
     }
 
     @Override
@@ -72,7 +95,7 @@ public class PipelineBranchDefaultsProjectFactory extends WorkflowBranchProjectF
         @Nonnull
         @Override
         public String getDisplayName() {
-            return "by default " + SCRIPT;
+            return "by default Jiayun " + SCRIPT;
         }
 
     }

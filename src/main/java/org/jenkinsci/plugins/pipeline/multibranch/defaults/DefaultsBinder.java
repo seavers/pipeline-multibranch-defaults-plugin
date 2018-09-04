@@ -50,6 +50,19 @@ import java.util.List;
  */
 class DefaultsBinder extends FlowDefinition {
 
+    private String scriptPath = PipelineBranchDefaultsProjectFactory.SCRIPT;
+
+    public Object readResolve() {
+        if (this.scriptPath == null) {
+            this.scriptPath = PipelineBranchDefaultsProjectFactory.SCRIPT;
+        }
+        return this;
+    }
+
+    public DefaultsBinder(String scriptPath) {
+        this.scriptPath = scriptPath;
+    }
+
     @Override
     public FlowExecution create(FlowExecutionOwner handle, TaskListener listener, List<? extends Action> actions) throws Exception {
         Jenkins jenkins = Jenkins.getInstance();
@@ -63,7 +76,7 @@ class DefaultsBinder extends FlowDefinition {
 
         ConfigFileStore store = GlobalConfigFiles.get();
         if (store != null) {
-            Config config = store.getById(PipelineBranchDefaultsProjectFactory.SCRIPT);
+            Config config = store.getById(scriptPath);
             if (config != null) {
                 return new CpsFlowDefinition(config.content, false).create(handle, listener, actions);
             }
@@ -76,7 +89,7 @@ class DefaultsBinder extends FlowDefinition {
 
         @Override
         public String getDisplayName() {
-            return "Pipeline script from default " + PipelineBranchDefaultsProjectFactory.SCRIPT;
+            return "Pipeline script from default " + PipelineBranchDefaultsProjectFactory.SCRIPT + " by jiayun";
         }
 
     }

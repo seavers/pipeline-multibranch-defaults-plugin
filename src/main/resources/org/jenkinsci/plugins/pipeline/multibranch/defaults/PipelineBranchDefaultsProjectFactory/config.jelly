@@ -26,4 +26,7 @@ THE SOFTWARE.
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core">
     <!-- TODO alternately, hide the selector, as in LiterateMultibranchProject/configure-factory.jelly -->
+    <f:entry title="${%Script Path}" field="scriptPath">
+        <f:textbox default="Jenkinsfile"/>
+    </f:entry>
 </j:jelly>
