@@ -32,6 +32,7 @@ import jenkins.scm.api.SCMSourceCriteria;
 import org.apache.commons.lang.StringUtils;
 import org.jenkinsci.plugins.workflow.flow.FlowDefinition;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowBranchProjectFactory;
+import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 
@@ -89,7 +90,7 @@ public class PipelineBranchDefaultsProjectFactory extends WorkflowBranchProjectF
 
         @Override
         public boolean isApplicable(Class<? extends MultiBranchProject> clazz) {
-            return PipelineMultiBranchDefaultsProject.class.isAssignableFrom(clazz);
+            return WorkflowMultiBranchProject.class.isAssignableFrom(clazz);
         }
 
         @Nonnull
