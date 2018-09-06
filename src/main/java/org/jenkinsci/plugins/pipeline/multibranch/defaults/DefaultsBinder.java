@@ -39,6 +39,7 @@ import org.jenkinsci.plugins.workflow.flow.FlowExecutionOwner;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.job.WorkflowRun;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowBranchProjectFactory;
+import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
 
 import java.util.List;
 
@@ -103,7 +104,7 @@ class DefaultsBinder extends FlowDefinition {
         @Override
         public boolean filter(Object context, Descriptor descriptor) {
             if (descriptor instanceof DescriptorImpl) {
-                return context instanceof WorkflowJob && ((WorkflowJob) context).getParent() instanceof PipelineMultiBranchDefaultsProject;
+                return context instanceof WorkflowJob && ((WorkflowJob) context).getParent() instanceof WorkflowMultiBranchProject;
             }
             return true;
         }
